@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate Model Simulation</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            width: auto ;
+            margin: 20px auto;
+        }
+        .columns{
+            display: flex;
+        }
+        .param{
+            justify-content: right;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css" />
+
+</head>
+
+<body>
+    <h1 style="text-align: center;">Simulation of Climate Variables Over Time</h1>
+    <div class="columns">
+        <div class="column" style="width: 75%;">
+            <div class="chart-container">
+                <canvas id="tempChart"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="varsChart"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="ghgChart"></canvas>
+            </div>
+        </div>
+        <div class="column" style="width: 25%;">
+            <h2>Edit Parameters</h2>
+             <div id="ghgrate" class="param">
+                annual change in greenhouse gasses:<br>
+                <input name="ghgrate" type="range" min="0.1" max="5" value="0.25" step="0.05" oninput="updateValue(this.parentElement)">
+                +<span class="val">0.25</span> PPM
+            </div>
+            <div id="shiftthresh" class="param">
+                    climactic shift threshold<br>
+                    <input name="shiftthresh" type="range" min="20" max="25" value="21" step="0.1" oninput="updateValue(this.parentElement)">
+                    <span class="val">21</span> (℃):
+            </div>
+            <div id="cloudpct" class="param">
+                    Reduction in clouds after shift:<br>
+                    <input name="cloudpct" type="range" min="1" max="50" value="10" step="1" oninput="updateValue(this.parentElement)">
+                    <span class="val">10</span>%
+            </div>
+            <div class="param">
+                    <div id="stopEmitting">we stop emitting <input name="stopEmitting" type="checkbox"></div>
+                    <div id="stopEmittingYear">in year <input name="stopEmittingYear" type="range" min="0" max="225" value="225" step="5" oninput="updateValue(this.parentElement)">
+                    <span class="val">200</span></div>   
+            </div>
+            <div class="param">
+                    <div id="sequestration">we start reducing <input name="sequestration" type="checkbox"> </div>
+                    <div id="sequestrationYear">in year <input name="sequestrationYear" type="range" min="0" max="225" value="225" step="5" oninput="updateValue(this.parentElement)">
+                    <span class="val">200</span></div>   
+            </div>
+            <div style="margin-top: 10px;">
+                <button id="reset" onclick="reset()"><div style="display: flex; align-items: center; justify-content: center;"><i class="iconoir-refresh-double"></i> Reset</div></button>
+                <button id="update" onclick="updateSimulation()"><div style="display: flex; align-items: center; justify-content: center;"><i class="iconoir-data-transfer-down"></i> Update</div></button>
+            </div>
+        </div>
+    </div>
+    <script src="dumb_climate_model.js"></script>
+    <script>
+        window.onload = createCharts;
+    </script>
+</body>
+</html>
